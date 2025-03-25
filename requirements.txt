@@ -1,13 +1,1 @@
 streamlit
-openai-whisper
-faster-whisper
-torch
-torchaudio
-torchvision
-moviepy
-ffmpeg-python
-speechrecognition
-pytube
-youtube_transcript_api
-google-generativeai
-python-dotenv
