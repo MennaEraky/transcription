@@ -7,10 +7,16 @@ import google.generativeai as genai
 from youtube_transcript_api import YouTubeTranscriptApi
 from pytube import YouTube
 from dotenv import load_dotenv
+import streamlit as st
 
-# Load API keys from Streamlit secrets
-google_api_key = st.secrets["GOOGLE_API_KEY"]
-genai.configure(api_key=google_api_key)
+# Load environment variables from .env
+load_dotenv()
+
+# Access API key
+google_api_key = os.getenv("GOOGLE_API_KEY")
+
+if not google_api_key:
+    st.error("GOOGLE_API_KEY is missing. Please add it to your .env file or Streamlit secrets.")
 
 # Load Whisper model
 model = whisper.load_model("base")
