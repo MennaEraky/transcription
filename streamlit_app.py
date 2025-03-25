@@ -8,9 +8,8 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from pytube import YouTube
 from dotenv import load_dotenv
 
-# Load API keys from .env
-load_dotenv()
-google_api_key = os.getenv("GOOGLE_API_KEY")
+# Load API keys from Streamlit secrets
+google_api_key = st.secrets["GOOGLE_API_KEY"]
 genai.configure(api_key=google_api_key)
 
 # Load Whisper model
@@ -27,7 +26,8 @@ def transcribe_audio(audio_path):
 def transcribe_youtube(video_url):
     """Extract transcript from a YouTube video."""
     try:
-        transcript = YouTubeTranscriptApi.get_transcript(video_url.split("v=")[1])
+        video_id = video_url.split("v=")[1].split("&")[0]
+        transcript = YouTubeTranscriptApi.get_transcript(video_id)
         return " ".join([line["text"] for line in transcript])
     except Exception as e:
         return str(e)
@@ -52,7 +52,7 @@ option = st.radio("Choose Input Method:", ["YouTube Link", "Upload Video"])
 
 if option == "YouTube Link":
     video_url = st.text_input("Enter YouTube URL:")
-    if st.button("Transcribe YouTube Video"):
+    if st.button("Transcribe YouTube Video") and video_url:
         transcript = transcribe_youtube(video_url)
         st.text_area("Transcript:", transcript, height=200)
         if st.button("Summarize Transcript"):
