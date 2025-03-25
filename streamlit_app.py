@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 import whisper
-import moviepy.editor as mp
+# import moviepy.editor as mp
 import speech_recognition as sr
 import google.generativeai as genai
 from youtube_transcript_api import YouTubeTranscriptApi
